@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atguigu.dao.HourseDiceDao">
+    <sql id="coums">
+           select id,parent_id,name,dict_code,create_time,update_time,is_deleted
+    </sql>
+    <select id="findListByParentById" resultType="dict">
+            <include refid="coums"/>
+            from db_house.hse_dict
+            where parent_id=#{id} and is_deleted=0
+    </select>
+    <select id="countIsParentById" resultType="int">
+        select count(*) from  db_house.hse_dict
+            where parent_id=#{id} and is_deleted=0
+    </select>
+    <select id="getByDictCode" resultType="dict">
+        <include refid="coums"/>
+        from db_house.hse_dict
+        where
+        dict_code =#{dictCode} and
+        is_deleted=0
+    </select>
+    <select id="getNameById" resultType="string">
+        select name   from db_house.hse_dict where id=#{id}
+    </select>
+</mapper>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atguigu.dao.RoleDao">
+
+    <sql id="columns">
+		select id,role_name,role_code,description,create_time,update_time,is_deleted
+	</sql>
+
+    <!--查询所有-->
+    <select id="findAll" resultType="role">
+        <include refid="columns"></include>
+        from acl_role
+        where is_deleted = 0
+    </select>
+<!--    添加角色-->
+    <insert id="insert" >
+        insert into db_house.acl_role (role_name,role_code,description) values (#{roleName},#{roleCode},#{description});
+    </insert>
+<!--    根据ID进行查询-->
+    <select id="getById" resultType="role">
+        <include refid="columns"></include>
+        from  db_house.acl_role where id=#{id}
+    </select>
+<!--    通过ID进行更新-->
+    <update id="update">
+        update db_house.acl_role set
+         <if test="roleName!=null">
+             role_name=#{roleName},
+         </if>
+         <if test="roleCode!=null">
+             role_code=#{roleCode},
+         </if>
+         <if test="description!=null">
+             description=#{description},
+         </if>
+         update_time=NOW()
+         where
+         id=#{id}
+
+    </update>
+<!--    逻辑删除-->
+    <update id="delete">
+        update db_house.acl_role set is_deleted= 1  where id=#{id} ;
+    </update>
+<!--    分页查询-->
+    <sql id="findPageWhere">
+        <where>
+            1=1
+            <if test="roleName!=null and roleName!=''">
+                and role_name=#{roleName}
+            </if>
+            and is_deleted=0
+        </where>
+    </sql>
+    <select id="findPage" resultType="Role">
+        <include refid="columns"></include>
+        from db_house.acl_role
+        <include refid="findPageWhere"></include>
+        order by id desc
+    </select>
+</mapper>

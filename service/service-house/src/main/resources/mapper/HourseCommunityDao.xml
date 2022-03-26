@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atguigu.dao.HourseCommunityDao">
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+		select id,name,description,province_id,city_id,area_id,plate_id,address,longitude,latitude,build_years,property_price,property_company,developer,build_num,house_num,average_price,create_time,update_time,is_deleted
+	</sql>
+<!--    查询-->
+    <select id="findPage" resultType="Community">
+        <include refid="columns"/>
+        from db_house.hse_community
+        <where>
+            <if test="name!=null and name!=''">
+               and  name like concat('%',#{name},'%')
+            </if>
+            <if test="areaId!=null and areaId!=''">
+                and area_id=#{areaId}
+            </if>
+            <if test="plateId!=null and plateId!=''">
+                and plate_id=#{plateId}
+            </if>
+            and is_deleted=0 order by id desc
+        </where>
+    </select>
+</mapper>

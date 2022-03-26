@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atguigu.dao.AdminDao">
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+		select id,username,password,name,phone,head_url,description,create_time,update_time,is_deleted
+	</sql>
+<!--    添加员工-->
+    <insert id="insert">
+        insert into
+        db_house.acl_admin
+        (
+        id,username,password,name,phone,head_url,description)
+         values (
+            #{id} ,
+        	#{username} ,
+        	#{password} ,
+        	#{name} ,
+        	#{phone} ,
+        	#{headUrl} ,
+        	#{description}
+        );
+
+    </insert>
+<!--    修改员工-->
+    <update id="update">
+        update db_house.acl_admin set
+            <if test="username!=null and username!=''">
+                username=#{username},
+            </if>
+            <if test="password!=null and passwors!=''">
+                password=#{password},
+            </if>
+            <if test="name!=null and name!=''">
+                name=#{name},
+            </if>
+            <if test="phone!=null and phone!=''">
+                phone=#{phone},
+            </if>
+            <if test="headUrl!=null and headUrl!=''">
+                head_url=#{headUrl},
+            </if>
+            <if test="description!=null and description!=''">
+                description=#{description},
+            </if>
+            update_time =NOW()
+           where id=#{id} ;
+    </update>
+<!-- 删除员工 -->
+    <update id="delete">
+        update db_house.acl_admin set is_deleted=1   where  id=#{id};
+    </update>
+<!--    通过Id来获取员工-->
+    <select id="getById" resultType="admin">
+        <include refid="columns"></include>
+        from db_house.acl_admin
+        where id=#{id} and is_deleted=0;
+    </select>
+<!--    条件查询员工-->
+    <select id="findPage" resultType="admin">
+        <include refid="columns"></include>
+        from db_house.acl_admin
+        <where>
+             is_deleted=0
+            <if test="username!=null and username!=''">
+                and username=#{username}
+            </if>
+            <if test="name!=null and name!=''">
+               and  name=#{name}
+            </if>
+            <if test="phone!=null and phone !=''">
+               and  phone=#{phone}
+            </if>
+            <if test="createTimeBegin!=null and createTimeBegin!='' and createTimeEnd!=null and createTimeEnd!='' ">
+               and  create_time between #{createTimeBegin} and  #{createTimeEnd}
+            </if>
+
+
+        </where>
+    </select>
+</mapper>

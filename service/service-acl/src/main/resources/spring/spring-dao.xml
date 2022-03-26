@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:spring-mybatis="http://mybatis.org/schema/mybatis-spring"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                     http://www.springframework.org/schema/beans/spring-beans.xsd
+                     http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring.xsd">
+
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" destroy-method="close">
+        <property name="username" value="root" />
+        <property name="password" value="123456" />
+        <property name="driverClassName" value="com.mysql.cj.jdbc.Driver" />
+        <property name="url" value="jdbc:mysql://150.158.6.53:3306/db_house?characterEncoding=utf8&amp;serverTimezone=Asia/Shanghai&amp;allowPublicKeyRetrieval=true" />
+    </bean>
+    <!--spring和mybatis整合的工厂bean-->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <property name="typeAliasesPackage" value="com.atguigu.entity"></property>
+        <property name="configLocation" value="classpath:mybatis-config.xml" />
+        <property name="mapperLocations">
+            <array>
+                <value>classpath:mapper/*.xml</value>
+            </array>
+        </property>
+    </bean>
+    <!--批量扫描接口生成代理对象-->
+    <spring-mybatis:scan base-package="com.atguigu.dao"></spring-mybatis:scan>
+
+</beans>

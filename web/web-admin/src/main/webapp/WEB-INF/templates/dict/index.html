@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head th:include="common/head :: head"></head>
+
+<link rel="stylesheet" th:href="@{/static/plugins/zTree_v3/zTreeStyle.css}" type="text/css">
+<script type="text/javascript" th:src="@{/static/plugins/zTree_v3/jquery.ztree.core.js}"></script>
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="ibox float-e-margins">
+        <div class="ibox-content" style="width: 98%;">
+
+            <div class="zTreeDemoBackground left">
+                <ul id="treeDemo" class="ztree"></ul>
+            </div>
+        </div>
+    </div>
+</div>
+<script th:inline="javascript">
+    $(function (){
+        var setting={
+            //发送异步请求
+            async: {
+                enable: true,
+                url:"/dict/findZnodes",
+                type:"get",
+                autoParam:["id"],
+                dataFilter: filter
+            }
+        };
+        function filter(treeId, parentNode, childNodes) {
+            childNodes = childNodes.data
+            if (!childNodes) return null;
+            for (var i=0, l=childNodes.length; i<l; i++) {
+                childNodes[i].name = childNodes[i].name.replace(/\.n/g, '.');
+            }
+            return childNodes;
+        }
+        $(document).ready(function(){
+            $.fn.zTree.init($("#treeDemo"), setting);
+        });
+    })
+</script>
+</body>
+</html>
