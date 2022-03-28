@@ -7,4 +7,5 @@ import javax.annotation.Resource;
 
 @Resource
 public interface AdminDao extends BaseDao<Admin> {
+
 }

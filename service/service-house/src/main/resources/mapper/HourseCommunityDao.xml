@@ -24,4 +24,80 @@
             and is_deleted=0 order by id desc
         </where>
     </select>
+<!--    添加-->
+    <insert id="insert">
+        insert into db_house.hse_community (
+                                            name, description,
+                                            area_id, plate_id, address,
+                                            build_years, property_price,
+                                            property_company, developer,
+                                            build_num, house_num, average_price) VALUES
+        ( #{name},
+         #{description},
+         #{areaId},
+         #{plateId},
+         #{address},
+         #{buildYears},
+         #{propertyPrice},
+         #{propertyCompany}, #{developer}, #{buildNum}, #{houseNum}, #{averagePrice})
+    </insert>
+<!--    修改-->
+    <update id="update">
+        update db_house.hse_community
+            <set>
+                <if test="name!=null and name!=''">
+                    name=#{name},
+                </if>
+                <if test="description!=null and description!=''">
+                    description=#{description},
+                </if>
+                <if test="areaId!=null and areaId!=''">
+                    area_id=#{areaId},
+                </if>
+                <if test="plateId!=null and plateId!=''">
+                    plate_id=#{plateId},
+                </if>
+                <if test="address!=null and address!=''">
+                    address=#{address},
+                </if>
+                <if test="buildYears!=null and buildYears!=''">
+                    build_years=#{buildYears},
+                </if>
+                <if test="propertyPrice!=null and propertyPrice!=''">
+                    property_price=#{propertyPrice},
+                </if>
+                <if test="propertyCompany!=null and propertyCompany!='' ">
+                    property_company=#{propertyCompany},
+                </if>
+                <if test="developer!=null and developer!=''">
+                    developer=#{developer},
+                </if>
+                <if test="buildNum!=null and buildNum!=''">
+                    build_num=#{buildNum},
+                </if>
+                <if test="houseNum!=null and houseNum!=''">
+                    house_num=#{houseNum},
+                </if>
+                <if test="averagePrice!=null and averagePrice!=''">
+                    average_price=#{averagePrice}
+                </if>
+                update_time=NOW()
+                where id=#{id}
+            </set>
+    </update>
+<!--    根据ID查询-->
+    <select id="getById" resultType="Community">
+        <include refid="columns"/>
+        from db_house.hse_community
+        where id=#{id} and is_deleted=0
+    </select>
+<!--    删除-->
+    <update id="delete">
+        update  db_house.hse_community set is_deleted=1 where id=#{id}
+    </update>
+    <select id="findAll" resultType="Community">
+        <include refid="columns"/>
+        from db_house.hse_community
+        where is_deleted=0
+    </select>
 </mapper>

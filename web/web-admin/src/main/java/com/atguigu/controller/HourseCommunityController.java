@@ -2,6 +2,7 @@ package com.atguigu.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.atguigu.Base.BaseController;
+import com.atguigu.entity.Community;
 import com.atguigu.entity.Dict;
 import com.atguigu.entity.House;
 import com.atguigu.service.HourseCommunityService;
@@ -10,6 +11,8 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
@@ -74,11 +77,20 @@ public class HourseCommunityController extends BaseController {
 
 
     public static final  String PAGE_INDEX="community/index";
+    public static final  String PAGE_CREATE="community/create";
+    public   static  final String PAGE_SUCCESS = "common/successPage";
+    public static final String PAGE_EDIT="community/edit";
     @Reference
     private HourseCommunityService communityService;
     @Reference
     private HourseDiceService diceService;
 
+    /**
+     * 分页查询
+     * @param map
+     * @param request
+     * @return
+     */
     @RequestMapping
     public String index(ModelMap map, HttpServletRequest request){
         Map<String, Object> filters = this.getFilters(request);
@@ -88,12 +100,75 @@ public class HourseCommunityController extends BaseController {
         if(!filters.containsKey("plateId")){
             filters.put("plateId","");
         }
-        PageInfo<House> pageInfo=communityService.findPage(filters);
+        PageInfo<Community> pageInfo=communityService.findPage(filters);
         List<Dict> areaList = diceService.findListByDictCode("beijing");
         map.put("areaList",areaList);
         map.put("page",pageInfo);
         map.put("filters",filters);
         return PAGE_INDEX;
     }
+
+    /**
+     * 回显数据
+     * @param id
+     * @param map
+     * @return
+     */
+    @GetMapping("edit/{id}")
+    public String getCommuntiyById(@PathVariable("id") Integer id,ModelMap map){
+        Community community = communityService.getById(id);
+        List<Dict> areaList = diceService.findListByDictCode("beijing");
+        map.put("community",community);
+        map.put("areaList",areaList);
+
+        return PAGE_EDIT;
+    }
+
+    /**
+     * 修改
+     * @param community
+     * @return
+     */
+    @PostMapping("update")
+    public String updateCommuntiy(Community community){
+        Integer update = communityService.update(community);
+        return PAGE_SUCCESS;
+    }
+
+    /**
+     * 逻辑删除
+     * @param id
+     * @return
+     */
+    @GetMapping("delete/{id}")
+    public String  deleteById(@PathVariable("id") Integer id){
+        Integer delete = communityService.delete(id);
+        return "redirect:/community/";
+    }
+
+    /**
+     * 路由跳转到新增界面
+     * @param map
+     * @return
+     */
+    @GetMapping("create")
+    public String insertCommunity(ModelMap map){
+
+        List<Dict> areaList = diceService.findListByDictCode("beijing");
+        map.put("areaList",areaList);
+        return PAGE_CREATE;
+    }
+
+    /**
+     * 新增数据
+     * @param community
+     * @return
+     */
+    @PostMapping("save")
+    public String save(Community community){
+        Integer insert = communityService.insert(community);
+        return PAGE_SUCCESS;
+    }
+
 
 }

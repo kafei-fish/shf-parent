@@ -41,6 +41,7 @@ public abstract class BaseServiceImpl<T> implements BaseService<T> {
     public PageInfo<T> findPage(Map<String, Object> filters) {
         int pageNum= CastUtil.castInt(filters.get("pageNum"),1);
         int pageSize=CastUtil.castInt(filters.get("pageSize"),3);
+
         PageHelper.startPage(pageNum,pageSize);
         Page<T> page = getEntityDao().findPage(filters);
         return new PageInfo<T>(page,10);
