@@ -9,7 +9,7 @@
     <!--配置dubbo应用程序名称-->
     <dubbo:application name="web_admin"></dubbo:application>
     <!--注册配置中心-->
-    <dubbo:registry address="zookeeper://192.168.6.100:2181"></dubbo:registry>
+    <dubbo:registry address="zookeeper://127.0.0.1:2181"></dubbo:registry>
     <!--dubbo扫描-->
     <dubbo:annotation package="com.atguigu"></dubbo:annotation>
     <!--启动时候不检查 设置连接超时时间-->

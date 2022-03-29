@@ -102,6 +102,8 @@ public class HourseCommunityController extends BaseController {
         }
         PageInfo<Community> pageInfo=communityService.findPage(filters);
         List<Dict> areaList = diceService.findListByDictCode("beijing");
+        List<Community> list = pageInfo.getList();
+
         map.put("areaList",areaList);
         map.put("page",pageInfo);
         map.put("filters",filters);

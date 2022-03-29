@@ -25,4 +25,9 @@
     <select id="getNameById" resultType="string">
         select name   from db_house.hse_dict where id=#{id}
     </select>
+    <select id="findById" resultType="string">
+        select name
+        from db_house.hse_dict
+        where id=#{id} and   is_deleted=0
+    </select>
 </mapper>

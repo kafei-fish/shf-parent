@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atguigu.dao.HouseDetailsDao">
+<!--    根据id查询房源详情-->
+    <select id="findAllHouse" resultType="HouseEntiyVo">
+        SELECT
+            hh.id,
+            hh.community_id as communityId,
+            hh.name,
+            hh.status,
+            hh.total_price as totalPrice ,
+            hh.unit_price as unitPrice,
+            hh.build_area as buildArea,
+            hh.inside_area as insideArea,
+            hd6.name as houseTypeName,
+            hd1.name as floorName,
+            hd3.name as buildStructureName,
+            hd2.name as directionName,
+            hd4.name as decorationName,
+            hd5.name as houseUseName,
+            hh.elevator_ratio as elevatorRatio,
+            hh.listing_date as listingDateString,
+            hh.last_trade_date as lastTradeDateString
+        from
+            hse_house hh
+                left join hse_dict hd1
+                          on hh.floor_id =hd1.id
+                LEFT JOIN  hse_dict hd2
+                           ON hh.direction_id=hd2.id
+                LEFT JOIN  hse_dict hd3
+                           on hh.build_structure_id=hd3.id
+                LEFT JOIN hse_dict hd4
+                          on hh.decoration_id=hd4.id
+                LEFT JOIN hse_dict hd5
+                          on hh.house_use_id=hd5.id
+                LEFT JOIN hse_dict hd6
+                          on hh.house_type_id=hd6.id
+        where hh.id=#{id}
+    </select>
+    <select id="findAllcommuntiy" resultType="CommunityVo">
+        SELECT hc.id, hc.name,hd1.name as areaName,
+               hd2.name as plateName ,
+               hc.address,
+               hc.build_years as buildYears ,
+               hc.property_price as propertyPrice,
+               hc.property_company as propertyCompany,
+               hc.developer,
+               hc.build_num as buildNum,
+               hc.house_num as houseNum,
+               hc.average_price as averagePrice
+        from hse_community hc
+                 LEFT JOIN hse_dict hd1
+                           on hc.area_id=hd1.id
+                 LEFT JOIN hse_dict hd2
+                           on hc.plate_id=hd2.id
+        where hc.id=#{id}
+    </select>
+</mapper>

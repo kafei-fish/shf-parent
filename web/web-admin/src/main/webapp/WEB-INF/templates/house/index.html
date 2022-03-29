@@ -107,7 +107,7 @@
                                     <a class="publish" th:if="${item.status} == 1" th:attr="data-id=${item.id},data-status=0">取消发布</a>
 
                                     <a class="delete" th:attr="data-id=${item.id}">删除</a>
-                                    <a class="delete" th:attr="data-id=${item.id}">详情</a>
+                                    <a class="detail" th:attr="data-id=${item.id}" sec:authorize="hasAuthority('house.show')">详情</a>
                                 </td>
                             </tr>
                             </tbody>
@@ -138,6 +138,10 @@
            var id=$(this).attr("data-id");
            var status=$(this).attr("data-status")
             opt.confirm("/house/publish/"+id+"/"+status,"确定该操作吗?")
+        });
+        $(".detail").on("click",function () {
+            var id = $(this).attr("data-id");
+            window.location = "/show/" + id;
         });
     });
 </script>

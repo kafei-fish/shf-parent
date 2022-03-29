@@ -22,4 +22,11 @@ public interface HourseDiceService  {
      * @return
      */
     List<Dict> findListByDictCode(String dictCode);
+
+    /**
+     * 根据id查找
+     * @param id id
+     * @return
+     */
+    String findById(Long id);
 }

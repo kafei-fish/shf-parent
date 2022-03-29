@@ -9,4 +9,5 @@ import javax.annotation.Resource;
 @Resource
 public interface HouseDao extends BaseDao<House> {
     Integer byIdUpdateStatus(@Param("id") Integer id, @Param("status") Integer status);
+
 }

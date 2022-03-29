@@ -47,7 +47,9 @@ public class HouseController extends BaseController {
         //封装的请求参数
         Map<String, Object> filters = this.getFilters(request);
         PageInfo<House> page = hourseService.findPage(filters);
-        //小区信息
+        //获取区域名称
+
+
         List<Community> communityList = communityService.findAll();
         List<Dict> areaList = diceService.findListByDictCode("beijing");
         map.put("areaList",areaList);

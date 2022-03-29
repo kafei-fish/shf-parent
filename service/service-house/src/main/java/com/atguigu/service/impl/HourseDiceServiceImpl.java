@@ -59,5 +59,10 @@ public class HourseDiceServiceImpl implements HourseDiceService {
         return this.findListByParentById(dict.getId());
     }
 
+    @Override
+    public String findById(Long id) {
+        return hourseDiceDao.findById(id);
+    }
+
 
 }

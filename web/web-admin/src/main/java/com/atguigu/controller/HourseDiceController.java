@@ -16,6 +16,9 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 树形字典
+ */
 @Controller
 @RequestMapping("/dict")
 public class HourseDiceController {
@@ -35,7 +38,7 @@ public class HourseDiceController {
     }
 
     /**
-     *
+     * 用于房源管理使用
      * @param parentId
      * @return
      */

@@ -9,19 +9,26 @@
 	</sql>
 <!--    查询-->
     <select id="findPage" resultType="Community">
-        <include refid="columns"/>
-        from db_house.hse_community
+        select hc.id,
+               hc.name,hc.description,
+               hc.province_id,hc.city_id,hc.area_id,hc.plate_id,hc.address,hc.longitude,hc.latitude,hc.build_years,hc.property_price,hc.property_company,hc.developer,hc.build_num,hc.house_num,hc.average_price,hc.create_time,hc.update_time,hc.is_deleted
+               ,hd1.name as areaName,hd2.name as plateName
+        from db_house.hse_community as hc
+        left join hse_dict as hd1
+        on hc.area_id=hd1.id
+        left join hse_dict as hd2
+        on hc.plate_id = hd2.id
         <where>
             <if test="name!=null and name!=''">
-               and  name like concat('%',#{name},'%')
+               and  hc.name like concat('%',#{name},'%')
             </if>
             <if test="areaId!=null and areaId!=''">
-                and area_id=#{areaId}
+                and hc.area_id=#{areaId}
             </if>
             <if test="plateId!=null and plateId!=''">
-                and plate_id=#{plateId}
+                and hc.plate_id=#{plateId}
             </if>
-            and is_deleted=0 order by id desc
+            and hc.is_deleted=0 order by hc.id desc
         </where>
     </select>
 <!--    添加-->

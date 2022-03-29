@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atguigu.dao.HouseBrokerDao">
+<!--    获取-->
+    <select id="findAll" resultType="HouseBroker">
+        select house_id,broker_id,broker_name,broker_head_url ,create_time from hse_house_broker where is_deleted=0
+    </select>
+    <select id="findAllById" resultType="HouseBroker">
+        select id, house_id, broker_id, broker_name, broker_head_url, create_time, update_time, is_deleted from hse_house_broker where house_id=#{id} and is_deleted=0
+    </select>
+<!--   添加-->
+    <insert id="insert">
+        insert into hse_house_broker (house_id,broker_id,broker_name, broker_head_url
+                                    )
+        values (#{houseId},#{brokerId},#{brokerName},#{brokerHeadUrl});
+    </insert>
+<!--    修改-->
+        <update id="update">
+            update hse_house_broker
+                <set>
+
+                    <if test="brokerName!=null and brokerName!=''">
+                        broker_name=#{brokerName} ,
+                    </if>
+                    <if test="brokerHeadUrl!=null and brokerHeadUrl!=''">
+                        broker_head_url=#{brokerHeadUrl},
+                    </if>
+                    update_time=NOW()
+                    where id=#{id}
+                </set>
+        </update>
+        <select id="getById"  resultType="HouseBroker">
+            select id, house_id, broker_id, broker_name, broker_head_url, create_time, update_time, is_deleted
+            from hse_house_broker where id=#{id} and is_deleted=0;;
+        </select>
+<!--    删除-->
+        <update id="delete">
+            update hse_house_broker
+                set is_deleted=1 where id=#{id};
+        </update>
+</mapper>

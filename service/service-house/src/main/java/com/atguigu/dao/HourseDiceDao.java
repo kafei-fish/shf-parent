@@ -25,4 +25,6 @@ public interface HourseDiceDao {
     String getNameById(Long id);
 
     Dict getByDictCode(String dictCode);
+
+    String findById(Long id);
 }

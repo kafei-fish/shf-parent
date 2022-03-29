@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atguigu.dao.HouseUserDao">
+    <select id="findAll" resultType="HouseUser">
+        select id, house_id, name, phone, sex, id_no, create_time, update_time, is_deleted from  hse_house_user where is_deleted=0;
+    </select>
+    <insert id="insert">
+        insert into hse_house_user (house_id,name, phone, sex, id_no)
+        values (#{houseId},#{name},#{phone},#{sex},#{idNo});
+    </insert>
+    <select id="getById" resultType="HouseUser">
+        select id, house_id, name, phone, sex, id_no, create_time, update_time, is_deleted from  hse_house_user where id=#{id} and is_deleted=0;
+    </select>
+    <select id="findAllById" resultType="HouseUser">
+        select id, house_id, name, phone, sex, id_no, create_time, update_time, is_deleted
+        from hse_house_user where house_id=#{id} and is_deleted=0;
+    </select>
+    <update id="update">
+        update hse_house_user
+        <set>
+            <if test="name!=null and name!=''">
+                name=#{name},
+            </if>
+            <if test="phone!=null and phone!=''">
+                phone=#{phone},
+            </if>
+            <if test="sex!=null and sex!=''">
+                sex=#{sex},
+            </if>
+            <if test="idNo!=null and idNo!=''">
+                id_no=#{idNo},
+            </if>
+            update_time=NOW()
+        </set>
+        where is_deleted=0;
+    </update>
+    <update id="delete">
+        update hse_house_user
+        set
+        is_deleted=1
+        where id=#{id}
+    </update>
+</mapper>
