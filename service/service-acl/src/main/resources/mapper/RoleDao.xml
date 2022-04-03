@@ -60,4 +60,15 @@
         <include refid="findPageWhere"></include>
         order by id desc
     </select>
+
+    <select id="findRoleListByAdminId" resultType="role">
+        <include refid="columns"></include>
+        from acl_role where id=#{id} and is_deleted=0;
+    </select>
+    <select id="findNotContainsRoleId" resultType="role" parameterType="java.util.List">
+        select * from acl_role where  is_deleted=0 and  id not in
+        <foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </select>
 </mapper>

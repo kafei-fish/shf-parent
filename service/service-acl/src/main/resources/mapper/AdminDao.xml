@@ -81,8 +81,20 @@
             <if test="createTimeBegin!=null and createTimeBegin!='' and createTimeEnd!=null and createTimeEnd!='' ">
                and  create_time between #{createTimeBegin} and  #{createTimeEnd}
             </if>
-
-
         </where>
     </select>
+    <select id="fianRoleId" resultType="long">
+        select role_id from acl_admin_role where admin_id=#{id} and is_deleted=0;
+    </select>
+    <select id="findRolrNotId" resultType="long">
+        select role_id from acl_admin_role where admin_id &lt;&gt; #{id} and is_deleted=0;
+    </select>
+    <insert id="insertRoleAndAdmin">
+
+        insert into acl_admin_role (role_id, admin_id)
+        values (#{roleId},#{adminId});
+    </insert>
+    <update id="deletebyAdminId">
+        update acl_admin_role set is_deleted=1,update_time=now() where admin_id=#{id}
+    </update>
 </mapper>

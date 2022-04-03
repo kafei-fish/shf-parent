@@ -1,8 +1,13 @@
 package com.atguigu.service;
 
 import com.atguigu.Base.BaseService;
+import com.atguigu.entity.Community;
 import com.atguigu.entity.CommunityVo;
+import com.atguigu.entity.House;
 import com.atguigu.entity.HouseEntiyVo;
+import com.atguigu.vo.HouseQueryVo;
+import com.atguigu.vo.HouseVo;
+import com.github.pagehelper.PageInfo;
 
 public interface HouseDetailsService extends BaseService<HouseEntiyVo> {
     /**
@@ -18,4 +23,8 @@ public interface HouseDetailsService extends BaseService<HouseEntiyVo> {
      * @return 返回 CommunityVo
      */
     CommunityVo findAllcommuntiy(Integer id);
+    House findAll(Integer id);
+    Community allComm(Long id);
+
+    PageInfo<HouseVo> findPageList(Integer pageNum, Integer pageSize, HouseQueryVo houseQueryVo);
 }

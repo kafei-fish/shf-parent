@@ -10,4 +10,5 @@ import java.util.List;
 @Resource
 public interface HourseCommunityDao extends BaseDao<Community> {
     List<Community> findAll();
+    
 }

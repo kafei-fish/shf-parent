@@ -10,4 +10,5 @@ public interface HouseBrokerService extends BaseService<HouseBroker>{
     List<HouseBroker> findAll();
 
     List<HouseBroker> findAllById(Integer id);
+    List<HouseBroker>  getByHouseIdAndBroker(Integer houseId);
 }

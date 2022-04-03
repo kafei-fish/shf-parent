@@ -55,7 +55,7 @@ public class HourseDiceServiceImpl implements HourseDiceService {
         //这个ID就是城市的id，也是下级的父id，得到城市的每个区
         Dict dict = hourseDiceDao.getByDictCode(dictCode);
         if(dict==null) return null;
-
+        //然后返回根据父id查询出结果
         return this.findListByParentById(dict.getId());
     }
 

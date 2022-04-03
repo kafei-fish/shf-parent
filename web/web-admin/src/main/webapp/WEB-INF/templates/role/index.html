@@ -41,6 +41,7 @@
                                 <td class="text-center">
                                     <a class="edit" th:attr="data-id=${item.id}">修改</a>
                                     <a class="delete" th:attr="data-id=${item.id}">删除</a>
+                                    <a class="distribute" th:attr="data-id=${item.id}">分配权限</a>
                                 </td>
                             </tr>
                             </tbody>
@@ -66,6 +67,11 @@
             var id = $(this).attr("data-id");
             opt.confirm('/role/delete/'+id);
         });
+        $(".distribute").on("click",function () {
+            var id = $(this).attr("data-id");
+            opt.openWin('/permission/' + id,'修改',580,430);
+        });
+
     });
 </script>
 </body>

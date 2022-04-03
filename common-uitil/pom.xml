@@ -12,7 +12,6 @@
     <packaging>jar</packaging>
     <artifactId>common-uitil</artifactId>
 
-
     <dependencies>
         <!-- SpringMVC相关 -->
         <dependency>
@@ -130,5 +129,14 @@
             <groupId>commons-codec</groupId>
             <artifactId>commons-codec</artifactId>
         </dependency>
+        <!--               文件上传服务-->
+        <!--七牛云服务平台，第三方服务（图片上传）-->
+        <dependency>
+            <groupId>com.qiniu</groupId>
+            <artifactId>qiniu-java-sdk</artifactId>
+            <version>7.2.0</version>
+        </dependency>
+
     </dependencies>
+
 </project>

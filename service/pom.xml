@@ -12,6 +12,7 @@
     <modules>
         <module>service-acl</module>
         <module>service-house</module>
+        <module>service-user</module>
 
     </modules>
     <artifactId>service</artifactId>

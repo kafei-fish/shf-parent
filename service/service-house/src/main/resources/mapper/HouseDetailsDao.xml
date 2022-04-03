@@ -57,4 +57,59 @@
                            on hc.plate_id=hd2.id
         where hc.id=#{id}
     </select>
+    <select id="findAll" resultType="house">
+        select id, community_id, name, description, total_price, unit_price, build_area, inside_area, house_type_id, floor_id, build_structure_id, direction_id, decoration_id, house_use_id, elevator_ratio, listing_date, last_trade_date, default_image_url, status, create_time, update_time, is_deleted
+        from hse_house where id=#{id} and is_deleted=0;
+    </select>
+    <select id="AllComm" resultType="Community">
+        select id, name, description, province_id, city_id, area_id, plate_id, address, longitude, latitude, build_years, property_price, property_company, developer, build_num, house_num, average_price, create_time, update_time, is_deleted
+        from hse_community where id=#{id} and is_deleted=0;
+    </select>
+    <select id="findPageList" resultType="com.atguigu.vo.HouseVo">
+        select hc.name communityName,hh.* from
+        hse_house hh
+        left join hse_community hc
+        on hh.community_id=hc.id
+        <where>
+            <if test="areaId=null">
+                hc.area_id=#{areaId} and
+            </if>
+            <if test="plateId!=null">
+                hc.plate_id=#{plateId} and
+            </if>
+            <if test="houseTypeId!=null and houseTypeId!=''">
+               hh.house_type_id=#{houseTypeId} and
+            </if>
+            <if test="floorId!=null and floorId!=''">
+                hh.floor_id=#{floorId} and
+            </if>
+            <if test="directionId !=null and directionId!=''">
+                hh.direction_id=#{directionId} and
+            </if>
+            <if test="buildStructureId!=null and buildStructureId!=''">
+                hh.build_structure_id=#{buildStructureId} and
+            </if>
+            <if test="decorationId!=null and decorationId!=''">
+                hh.decoration_id=#{decorationId} and
+            </if>
+            <if test="houseUseId!=null and houseUseId!='' ">
+                hh.house_use_id=#{houseUseId} and
+            </if>
+
+
+            hh.is_deleted=0 and
+            hh.status=1 and
+            hc.is_deleted=0
+        </where>
+        <if test="defaultSort == 1">
+            order by hh.id desc
+        </if>
+        <if test="priceSort == 1 ">
+            order by hh.total_price desc
+        </if>
+        <if test="timeSort==1">
+            order by hh.create_time desc
+        </if>
+
+    </select>
 </mapper>

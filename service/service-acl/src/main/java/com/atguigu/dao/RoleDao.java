@@ -10,4 +10,7 @@ import java.util.List;
 public interface RoleDao extends BaseDao<Role> {
     List<Role> findAll();
 
+    Role findRoleListByAdminId(Long id);
+
+    List<Role> findNotContainsRoleId(List<Long> list);
 }

@@ -35,6 +35,10 @@
             select id, house_id, broker_id, broker_name, broker_head_url, create_time, update_time, is_deleted
             from hse_house_broker where id=#{id} and is_deleted=0;;
         </select>
+    <select id="getByHouseIdAndBroker" resultType="HouseBroker">
+        select id, house_id, broker_id, broker_name, broker_head_url, create_time, update_time, is_deleted
+        from hse_house_broker where house_id=#{houseId} and is_deleted=0;;
+    </select>
 <!--    删除-->
         <update id="delete">
             update hse_house_broker

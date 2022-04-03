@@ -6,7 +6,7 @@ import com.atguigu.Base.Impl.BaseServiceImpl;
 import com.atguigu.dao.HouseDao;
 import com.atguigu.entity.House;
 import com.atguigu.service.HourseService;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;

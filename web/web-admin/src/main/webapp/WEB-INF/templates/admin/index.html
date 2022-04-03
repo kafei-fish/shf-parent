@@ -44,6 +44,7 @@
                                 <th>用户姓名</th>
                                 <th>用户账号</th>
                                 <th>手机号</th>
+                                <th>角色</th>
                                 <th>创建时间</th>
                                 <th>操作 </th>
                             </tr>
@@ -57,10 +58,13 @@
                                 <td th:text="${item.name}">22</td>
                                 <td th:text="${item.username}">33</td>
                                 <td th:text="${item.phone}">22</td>
+                                <td ><span th:each="role :${item.roleList}"  th:text="${role.roleName}"></span> &nbsp;  &nbsp;  &nbsp;  &nbsp; </td>
                                 <td th:text="${#dates.format(item.createTime,'yyyy-MM-dd HH:mm:ss')}" >33</td>
                                 <td class="text-center">
                                     <a class="edit" th:attr="data-id=${item.id}">修改</a>
                                     <a class="delete" th:attr="data-id=${item.id}">删除</a>
+                                    <a class="uploadImage" th:attr="data-id=${item.id}">上传头像</a>
+                                    <a class="updateRole" th:attr="data-id=${item.id}">分配角色</a>
                                 </td>
                             </tr>
                             </tbody>
@@ -87,6 +91,14 @@
             var id = $(this).attr("data-id");
             opt.confirm('/admin/delete/'+id);
         });
+        $(".uploadImage").on("click",function (){
+            var id = $(this).attr("data-id");
+            opt.openWin("/admin/createUpload/"+id,"修改头像",580,430);
+        })
+        $(".updateRole").on("click",function (){
+            var id = $(this).attr("data-id");
+            opt.openWin("/admin/updateRole/"+id,"分配角色",580,430);
+        })
     });
 </script>
 </html>

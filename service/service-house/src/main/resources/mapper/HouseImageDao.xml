@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atguigu.dao.HouseImageDao">
+    <select id="findById" resultType="HouseImage">
+        select
+               id,
+               house_id,
+               image_name,
+               image_url,
+               type,
+               create_time,
+               update_time,
+               is_deleted
+            from hse_house_image
+                where id=#{id}
+    </select>
+    <select id="findHouseImageByHouseId" resultType="HouseImage">
+        select
+            id,
+            house_id,
+            image_name,
+            image_url,
+            type,
+            create_time,
+            update_time,
+            is_deleted
+        from hse_house_image
+        where house_id=#{id} and type=#{type} and is_deleted=0
+    </select>
+    <update id="update">
+        update hse_house_image
+        <set>
+            <if test="imageName!=null and imageName!=''">
+                image_name=#{imageName},
+            </if>
+            <if test="imageUrl!=null and imageUrl!=''">
+                image_url=#{imageUrl},
+            </if>
+            update_time=NOW()
+        </set>
+        where id=#{id}
+    </update>
+    <update id="delete">
+        update hse_house_image
+        set is_deleted=1 where id=#{id}
+    </update>
+    <insert id="insert">
+        insert into hse_house_image (house_id, image_name, image_url, type)
+        values (#{houseId}, #{imageName}, #{imageUrl}, #{type});
+    </insert>
+</mapper>

@@ -9,6 +9,8 @@ import java.util.Date;
 public class HouseEntiyVo  implements Serializable {
     private static final long serialVersionUID = 1L;
     private Integer id;
+    //房屋Id
+    private Integer houseId;
     //小区ID
     private Integer communityId;
     //房源名称
@@ -177,5 +179,13 @@ public class HouseEntiyVo  implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getHouseId() {
+        return houseId;
+    }
+
+    public void setHouseId(Integer houseId) {
+        this.houseId = houseId;
     }
 }

@@ -1,8 +1,13 @@
 package com.atguigu.dao;
 
 import com.atguigu.Base.BaseDao;
+import com.atguigu.entity.Community;
 import com.atguigu.entity.CommunityVo;
+import com.atguigu.entity.House;
 import com.atguigu.entity.HouseEntiyVo;
+import com.atguigu.vo.HouseQueryVo;
+import com.atguigu.vo.HouseVo;
+import com.github.pagehelper.Page;
 
 public interface HouseDetailsDao extends BaseDao<HouseEntiyVo> {
     /**
@@ -18,4 +23,8 @@ public interface HouseDetailsDao extends BaseDao<HouseEntiyVo> {
      * @return 返回 CommunityVo
      */
     CommunityVo findAllcommuntiy(Integer id);
+    House findAll(Integer id);
+    Community AllComm(Long id);
+
+    Page<HouseVo> findPageList(HouseQueryVo houseQueryVo);
 }

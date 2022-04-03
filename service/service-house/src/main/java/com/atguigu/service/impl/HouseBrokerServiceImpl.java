@@ -32,4 +32,9 @@ public class HouseBrokerServiceImpl extends BaseServiceImpl<HouseBroker> impleme
     public List<HouseBroker> findAllById(Integer id) {
         return houseBrokerDao.findAllById(id);
     }
+
+    @Override
+    public  List<HouseBroker>  getByHouseIdAndBroker(Integer houseId) {
+        return houseBrokerDao.getByHouseIdAndBroker(houseId);
+    }
 }

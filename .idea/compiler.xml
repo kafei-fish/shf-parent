@@ -7,12 +7,17 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="common-uitil" />
+        <module name="service-user" />
         <module name="model" />
+        <module name="web-font" />
         <module name="service-api" />
         <module name="service-acl" />
         <module name="web-admin" />
         <module name="service-house" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="service-oos" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
 </project>

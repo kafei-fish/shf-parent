@@ -7,5 +7,6 @@ import java.util.List;
 
 public interface RoleService extends BaseService<Role> {
     List<Role> findAll();
-
+    List<Role> findRoleListByAdminId(Long id);
+    List<Role> findNotRoleListByAdminId(Long id);
 }

@@ -7,4 +7,8 @@ import java.util.List;
 
 public interface AdminService extends BaseService<Admin> {
     List<Admin> fiandAll();
+
+
+    Integer insertIntoRoleAndAdmin(Long adminId,  Long[] roles);
+    List<Long> fianRoleId(Long id);
 }
