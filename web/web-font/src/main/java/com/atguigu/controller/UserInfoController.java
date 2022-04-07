@@ -1,9 +1,11 @@
 package com.atguigu.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.atguigu.entity.UserFollow;
 import com.atguigu.entity.UserInfo;
 import com.atguigu.result.Result;
 import com.atguigu.result.ResultCodeEnum;
+import com.atguigu.service.UserFolloeService;
 import com.atguigu.service.UserInfoService;
 import com.atguigu.uitis.UserInfoUitis;
 import com.atguigu.uitl.MD5;
@@ -25,7 +27,8 @@ import java.util.Map;
 public class UserInfoController {
     @Reference
     private UserInfoService userInfoService;
-
+    @Reference
+    private UserFolloeService userFolloeService;
     /**
      * 发送验证码
      * @param phone 手机
@@ -105,6 +108,21 @@ public class UserInfoController {
     public Result logout(HttpServletRequest request){
         request.getSession().removeAttribute("USER");
         return Result.ok();
+    }
+    @GetMapping("follow/{id}")
+    public Result follow(@PathVariable("id") Long houseId, HttpServletRequest request){
+
+        UserInfo userInfo= (UserInfo) request.getSession().getAttribute("USER");
+        Long userId = userInfo.getId();
+        UserFollow userFollow=new UserFollow();
+        userFollow.setHouseId(houseId);
+        userFollow.setUserId(userId);
+        Integer insert = userFolloeService.insert(userFollow);
+        if (insert>0){
+            return Result.ok(true);
+        }
+        return Result.ok(false);
+
     }
 
 

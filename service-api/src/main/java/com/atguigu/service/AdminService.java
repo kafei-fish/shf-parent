@@ -11,4 +11,8 @@ public interface AdminService extends BaseService<Admin> {
 
     Integer insertIntoRoleAndAdmin(Long adminId,  Long[] roles);
     List<Long> fianRoleId(Long id);
+
+    Admin findId(Long adminId);
+
+    Admin fianByAdminName(String adminName);
 }

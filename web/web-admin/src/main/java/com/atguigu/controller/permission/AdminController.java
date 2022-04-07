@@ -10,6 +10,9 @@ import com.atguigu.service.RoleService;
 import com.atguigu.uitl.CastUtil;
 import com.atguigu.uitl.OOSUitil;
 import com.github.pagehelper.PageInfo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -31,11 +34,15 @@ public class AdminController extends BaseController {
     private  static final String ADMIN_PAGE_UPLOAD="admin/upload";
     private static final String ADMIN_PAGE_ASSIGNSHOW="admin/assignShow";
     private  static final String PAGE_SUCCESS = "common/successPage";
+
     @Reference
     private AdminService adminService;
     @Reference
     private RoleService roleService;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+    @PreAuthorize("hasAuthority('role.create')")
     @GetMapping("/create")
     public String carete(){
         return ADMIN_CREATE;
@@ -71,6 +78,7 @@ public class AdminController extends BaseController {
      */
     @PostMapping("/save")
     public String  save(Admin admin){
+        admin.setPassword(passwordEncoder.encode(admin.getPassword()));
         Integer insert = adminService.insert(admin);
         return PAGE_SUCCESS;
     }
@@ -135,7 +143,7 @@ public class AdminController extends BaseController {
 //        //根据用户id首先查询用户拥有的角色，如果用户没有拥有角色，那么直接查出全部角色，进行分配，如果查出有角色就将除了了其有的角色全部返回
 //        //当用户进入之后，将角色移动道已选择之后，那我们对应的要将其未选择的数据减少
 //
-        List<Admin> admins = adminService.fiandAll();
+//        List<Admin> admins = adminService.fiandAll();
         List<Role> roles = roleService.findAll();
         //获取拥有角色的id
 

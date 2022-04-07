@@ -1,20 +1,15 @@
 package com.atguigu.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.atguigu.entity.Community;
-import com.atguigu.entity.HouseBroker;
-import com.atguigu.entity.HouseEntiyVo;
-import com.atguigu.entity.HouseImage;
+import com.atguigu.entity.*;
 import com.atguigu.result.Result;
-import com.atguigu.service.HourseCommunityService;
-import com.atguigu.service.HouseBrokerService;
-import com.atguigu.service.HouseDetailsService;
-import com.atguigu.service.HouseImageService;
+import com.atguigu.service.*;
 import com.atguigu.vo.HouseQueryVo;
 import com.atguigu.vo.HouseVo;
 import com.github.pagehelper.PageInfo;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,13 +28,15 @@ public class HouseController {
     private HourseCommunityService hourseCommunityService;
     @Reference
     private HouseImageService houseImageService;
+    @Reference
+    private UserFolloeService userFolloeService;
     @RequestMapping("list/{pageNum}/{pageSize}")
     public Result listPage(@PathVariable("pageNum") Integer pageNum, @PathVariable("pageSize") Integer pageSize ,@RequestBody HouseQueryVo houseQueryVo){
         PageInfo<HouseVo> pageInfo=houseDetailsService.findPageList(pageNum,pageSize,houseQueryVo);
         return Result.ok(pageInfo);
     }
     @GetMapping("info/{id}")
-    public Result houseInfo(@PathVariable("id") Integer id){
+    public Result houseInfo(@PathVariable("id") Integer id,HttpServletRequest request){
         Map<String ,Object> map=new HashMap<>();
         //通过id查询房源数据
         HouseEntiyVo houseEntiyVo = houseDetailsService.findAllHouse(id);
@@ -52,15 +49,40 @@ public class HouseController {
         Integer id1 = houseEntiyVo.getId();
         Long hId=(long) id1;
         List<HouseImage> houseImageByHouseId = houseImageService.findHouseImageByHouseId(hId, 1);
+//        UserInfo userInfo= (UserInfo) request.getSession().getAttribute("USER");
+//        //查询是否关注
+//
+        UserInfo userInfo= (UserInfo) request.getSession().getAttribute("USER");
+        Boolean flag=false;
+        if(null!=userInfo){
+            //查询是否关注
+            flag= userFolloeService.findById(userInfo.getId(),houseEntiyVo.getId());
+            map.put("userInfo",userInfo);
 
-        //查询是否关注
+        }
+        map.put("isFollow",flag);
         map.put("house",houseEntiyVo);
         map.put("community",community);
         map.put("houseBrokerList",houseBroker);
         map.put("houseImage1List",houseImageByHouseId);
-        map.put("isFollow",true);
-
+//
+//
         return Result.ok(map);
+    }
+    @GetMapping("auth/follow/{id}")
+    public Result follow(@PathVariable("id") Long houseId, HttpServletRequest request){
+
+        UserInfo userInfo= (UserInfo) request.getSession().getAttribute("USER");
+        Long userId = userInfo.getId();
+        UserFollow userFollow=new UserFollow();
+        userFollow.setHouseId(houseId);
+        userFollow.setUserId(userId);
+        Integer insert = userFolloeService.insert(userFollow);
+        if (insert>0){
+            return Result.ok(true);
+        }
+        return Result.ok(false);
+
     }
 
 }

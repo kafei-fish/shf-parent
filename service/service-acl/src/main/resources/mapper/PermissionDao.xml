@@ -6,5 +6,69 @@
     <select id="findAll" resultType="Permission">
         select id, parent_id, name, url, code, type, sort, create_time, update_time, is_deleted from acl_permission where is_deleted=0;
     </select>
-
+    <select id="findMenuPermissionByAdminId" resultType="Permission">
+        SELECT
+        distinct c.*
+        from acl_admin_role a
+        INNER JOIN acl_role_permission b
+        on a.role_id=b.role_id
+        INNER JOIN acl_permission c
+        on c.id=b.permission_id
+        where a.admin_id=#{adminId}
+        and   a.is_deleted=0
+        and   b.is_deleted=0
+        and   c.is_deleted=0
+    </select>
+    <insert id="insert">
+        insert into acl_permission (parent_id, name,  type) values (#{parentId},#{name},#{type})
+    </insert>
+    <update id="update">
+        update acl_permission
+        <set>
+            <if test="parentId!=null and parentId!=''">
+                parent_id=#{parentId},
+            </if>
+            <if test="name!=null and name!=''">
+                name=#{name},
+            </if>
+            <if test="code!=null and name != '' ">
+                code=#{code},
+            </if>
+            <if test="type !=null and name !=''">
+                type=#{type},
+            </if>
+            <if test="sort!=null and sort !=''">
+                sort=#{sort},
+            </if>
+            <if test="level!=null and level !=''">
+                level=#{level},
+            </if>
+            update_time=NOW()
+        </set>
+        where id=#{id}
+    </update>
+    <select id="getById" resultType="Permission">
+        select *
+        from acl_permission where id=#{id} and is_deleted=0;
+    </select>
+    <update id="delete">
+        update acl_permission set   update_time = now() , is_deleted=1 where id=#{id}
+    </update>
+    <update id="deleteByRoleId">
+        update acl_role_permission set update_time=NOW() , is_deleted=1 where role_id=#{roleId}
+    </update>
+    <select id="findAllByAdminId" resultType="string">
+        select code from acl_permission where is_deleted=0;
+    </select>
+    <select id="findByAdminId" resultType="string">
+        select ap.code from acl_admin_role aar left join
+        acl_role_permission arp
+        on aar.role_id=arp.role_id
+        left join  acl_permission ap
+        on arp.permission_id=ap.id
+        where aar.admin_id=#{id}
+        and arp.is_deleted=0
+        and ap.is_deleted=0
+        and aar.is_deleted=0
+    </select>
 </mapper>

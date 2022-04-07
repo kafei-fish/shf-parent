@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<html lang="en"  xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:include="common/head :: head"></head>
 <body class="gray-bg">
 <form id="ec" th:action="@{/admin}" method="post">
@@ -33,7 +33,7 @@
                         </table>
                         <div>
                             <button type="button" class="btn btn-sm btn-primary" onclick="javascript:document.forms.ec.pageNum.value=1;document.forms.ec.submit();">搜索</button>
-                            <button type="button" class="btn btn-sm btn-primary create"> 新增</button>
+                            <button type="button" class="btn btn-sm btn-primary create"  sec:authorize="hasAuthority('role.create')"> 新增</button>
                             <button type="button" id="loading-example-btn" onclick="javascript:window.location.reload();" class="btn btn-white btn-sm">刷新</button>
                         </div>
                         <table class="table table-striped table-bordered table-hover dataTables-example">

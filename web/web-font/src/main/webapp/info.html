@@ -32,9 +32,16 @@
     <div class="header">
         <div class="width1190">
             <div class="fl">您好，欢迎来到尚好房！</div>
-            <div class="fr">
+            <div class="fr" v-if="userInfo.nickName == ''">
                 <a href="login.html">登录</a> |
                 <a href="register.html">注册</a> |
+                <a href="javascript:;">加入收藏</a> |
+                <a href="javascript:;">设为首页</a>
+            </div>
+            <div class="fr" v-else>
+                <a href="javascript:;">欢迎 {{ userInfo.nickName }}</a> |
+                <a href="javascript:;" @click="logout">退出</a> |
+                <a href="follow.html">我的关注</a> |
                 <a href="javascript:;">加入收藏</a> |
                 <a href="javascript:;">设为首页</a>
             </div>
@@ -362,7 +369,9 @@
             houseBroker: {},
             houseImage1List: [],
             isFollow: false,
-
+            userInfo:{
+                nickName:''
+            },
             isLoad: false
         },
 
@@ -411,13 +420,31 @@
                     that.house = response.data.data.house
                     that.community = response.data.data.community
                     that.houseBroker = response.data.data.houseBrokerList[0]
+
                     that.houseImage1List = response.data.data.houseImage1List
-                    that.isFollow = response.data.data.isFollow
-                    that.isLoad = true
+                    that.isLoad = response.data.data.isFollow
+                    that.userInfo= response.data.data.userInfo
+
                 });
-            }
+            },
+            follow(){
+                var id=this.id
+                axios.get("/house/auth/follow/"+id).then((res)=>{
+                    if(res.data.code===208){
+                        window.location.href='login.html?originUrl='+window.location.href
+                    }else {
+                        this.isFollow=true;
+                    }
+
+                })
+            },
+            logout(){
+                    axios.get("userInfo/logout").then((res)=>{
+                        window.localStorage.setItem("userInfo", '')
+                        window.location.href = 'index.html'
+                    })
+                }
         }
     })
 </script>
 </body>
-</html>

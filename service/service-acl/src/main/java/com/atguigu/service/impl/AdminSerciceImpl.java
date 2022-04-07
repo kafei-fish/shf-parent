@@ -73,6 +73,17 @@ public class AdminSerciceImpl extends BaseServiceImpl<Admin> implements AdminSer
     }
 
     @Override
+    public Admin findId(Long adminId) {
+
+        return adminDao.findById(adminId);
+    }
+
+    @Override
+    public Admin fianByAdminName(String adminName) {
+        return adminDao.fianByAdminName(adminName);
+    }
+
+    @Override
     public PageInfo<Admin> findPage(Map<String, Object> filters) {
         int pageNum= CastUtil.castInt(filters.get("pageNum"),1);
         int pageSize=CastUtil.castInt(filters.get("pageSize"),3);

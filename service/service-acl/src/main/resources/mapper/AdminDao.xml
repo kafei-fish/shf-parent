@@ -97,4 +97,11 @@
     <update id="deletebyAdminId">
         update acl_admin_role set is_deleted=1,update_time=now() where admin_id=#{id}
     </update>
+    <select id="findById" resultType="admin">
+        select id, username, password, name, phone, head_url, description, create_time, update_time, is_deleted
+        from acl_admin where id=#{adminId} and is_deleted=0;
+    </select>
+    <select id="fianByAdminName" resultType="admin">
+        select id, username, password, name, phone, head_url, description, create_time, update_time, is_deleted from acl_admin where username=#{adminName} and is_deleted=0;
+    </select>
 </mapper>

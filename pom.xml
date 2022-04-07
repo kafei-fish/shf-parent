@@ -35,11 +35,19 @@
         <zookeeper.version>3.4.7</zookeeper.version>
         <junit.version>4.12</junit.version>
         <zkclient.version>0.1</zkclient.version>
+        <spring.security.version>5.2.7.RELEASE</spring.security.version>
+        <thymeleaf-springsecurity5.version>3.0.4.RELEASE</thymeleaf-springsecurity5.version>
     </properties>
 
     <!-- 依赖管理 -->
     <dependencyManagement>
         <dependencies>
+            <!--用于springsecurity5标签-->
+            <dependency>
+                <groupId>org.thymeleaf.extras</groupId>
+                <artifactId>thymeleaf-extras-springsecurity5</artifactId>
+                <version>${thymeleaf-springsecurity5.version}</version>
+            </dependency>
             <!-- SpringMVC相关 -->
             <dependency>
                 <groupId>org.springframework</groupId>
@@ -163,7 +171,17 @@
                 <artifactId>commons-codec</artifactId>
                 <version>1.10</version>
             </dependency>
-
+            <!-- spring security安全框架 -->
+            <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-web</artifactId>
+                <version>${spring.security.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-config</artifactId>
+                <version>${spring.security.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

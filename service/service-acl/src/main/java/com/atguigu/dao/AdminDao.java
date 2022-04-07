@@ -17,4 +17,8 @@ public interface AdminDao extends BaseDao<Admin> {
 
     Integer insertRoleAndAdmin(@Param("adminId") Long adminId, @Param("roleId") Long roleId);
     Integer deletebyAdminId(@Param("id") Long adminId);
+
+    Admin findById(Long adminId);
+
+    Admin fianByAdminName(String adminName);
 }
