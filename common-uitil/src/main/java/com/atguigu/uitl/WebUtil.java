@@ -31,6 +31,7 @@ public class WebUtil {
             writer.write(JSON.toJSONString(data)); // 转为 JSON 字符串
             writer.flush();
             writer.close();
+            System.out.println("github测试");
         } catch (Exception e) {
             logger.error("在响应中写数据出错！", e);
             throw new RuntimeException(e);
